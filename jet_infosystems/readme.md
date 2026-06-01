@@ -45,3 +45,166 @@
 - Использование калибровки вероятностей (Platt scaling) для более точного порога.
 - Добавление CatBoost или LightGBM для сравнения.
 - Feature engineering (взаимодействия признаков, полиномиальные признаки).
+
+## Пример вывода: C:\Users\leola\Downloads\jet_infosystems>python ml_solution.py
+============================================================
+PREDICTIVE MAINTENANCE SOLUTION
+AI4I 2020 Dataset - Machine Failure Prediction
+============================================================
+Data loaded successfully: 10000 rows, 14 columns
+
+============================================================
+DATASET INFORMATION
+============================================================
+Dataset size: 10000 samples, 14 features
+
+--- Data Types ---
+UDI                          int64
+Product ID                  object
+Type                        object
+Air temperature [K]        float64
+Process temperature [K]    float64
+Rotational speed [rpm]       int64
+Torque [Nm]                float64
+Tool wear [min]              int64
+Machine failure              int64
+TWF                          int64
+HDF                          int64
+PWF                          int64
+OSF                          int64
+RNF                          int64
+dtype: object
+
+--- Missing Values ---
+UDI                        0
+Product ID                 0
+Type                       0
+Air temperature [K]        0
+Process temperature [K]    0
+Rotational speed [rpm]     0
+Torque [Nm]                0
+Tool wear [min]            0
+Machine failure            0
+TWF                        0
+HDF                        0
+PWF                        0
+OSF                        0
+RNF                        0
+dtype: int64
+
+--- Target Distribution (Machine failure) ---
+0 (No Failure): 9661 (96.61%)
+1 (Failure):    339 (3.39%)
+
+============================================================
+PREPROCESSING
+============================================================
+Features used: ['Air temperature [K]', 'Process temperature [K]', 'Rotational speed [rpm]', 'Torque [Nm]', 'Tool wear [min]', 'ProductType']
+Preprocessed shape: (10000, 6)
+
+Train size: 8000 samples
+Validation size: 2000 samples
+
+============================================================
+TRAINING RANDOM FOREST
+============================================================
+Random Forest training completed.
+
+============================================================
+TRAINING XGBOOST
+============================================================
+XGBoost training completed.
+
+============================================================
+MODEL EVALUATION
+============================================================
+
+--- Random Forest Results ---
+Accuracy: 0.9830
+Precision: 0.7931
+Recall: 0.6765
+F1-Score: 0.7302
+ROC-AUC: 0.9657
+
+Confusion Matrix:
+[[1920   12]
+ [  22   46]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+  No Failure       0.99      0.99      0.99      1932
+     Failure       0.79      0.68      0.73        68
+
+    accuracy                           0.98      2000
+   macro avg       0.89      0.84      0.86      2000
+weighted avg       0.98      0.98      0.98      2000
+
+
+--- XGBoost Results ---
+Accuracy: 0.9860
+Precision: 0.8030
+Recall: 0.7794
+F1-Score: 0.7910
+ROC-AUC: 0.9688
+
+Confusion Matrix:
+[[1919   13]
+ [  15   53]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+  No Failure       0.99      0.99      0.99      1932
+     Failure       0.80      0.78      0.79        68
+
+    accuracy                           0.99      2000
+   macro avg       0.90      0.89      0.89      2000
+weighted avg       0.99      0.99      0.99      2000
+
+
+============================================================
+MODEL COMPARISON
+============================================================
+Metric          Random Forest        XGBoost
+------------------------------------------------------------
+Accuracy        0.9830               0.9860
+Precision       0.7931               0.8030
+Recall          0.6765               0.7794
+F1-Score        0.7302               0.7910
+ROC-AUC         0.9657               0.9688
+
+============================================================
+ALERT GENERATION (XGBoost Model)
+============================================================
+
+============================================================
+ALERT TABLE (Top 20 samples by failure probability)
+============================================================
+sample_id    actual     probability  alert
+------------------------------------------------------------
+1862         1          0.9991       1
+1225         1          0.9988       1
+1745         1          0.9985       1
+1949         1          0.9980       1
+40           1          0.9979       1
+64           1          0.9977       1
+1617         1          0.9974       1
+562          1          0.9972       1
+1189         1          0.9964       1
+1178         1          0.9952       1
+931          1          0.9952       1
+1963         1          0.9951       1
+502          1          0.9947       1
+674          1          0.9942       1
+1271         1          0.9940       1
+801          1          0.9938       1
+1438         1          0.9931       1
+1500         1          0.9924       1
+1505         1          0.9922       1
+1517         1          0.9913       1
+
+------------------------------------------------------------
+Total alerts (probability >= 0.05): 121 out of 2000 samples
+Correct alerts (actual failure): 59
+False alerts (false positives): 62
