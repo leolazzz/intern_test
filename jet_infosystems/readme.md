@@ -46,7 +46,9 @@
 - Добавление CatBoost или LightGBM для сравнения.
 - Feature engineering (взаимодействия признаков, полиномиальные признаки).
 
-## Пример вывода: C:\Users\leola\Downloads\jet_infosystems>python ml_solution.py
+## Пример вывода:
+``` bash
+C:\Users\leola\Downloads\jet_infosystems>python ml_solution.py
 ============================================================
 PREDICTIVE MAINTENANCE SOLUTION
 AI4I 2020 Dataset - Machine Failure Prediction
@@ -208,3 +210,4 @@ sample_id    actual     probability  alert
 Total alerts (probability >= 0.05): 121 out of 2000 samples
 Correct alerts (actual failure): 59
 False alerts (false positives): 62
+```
